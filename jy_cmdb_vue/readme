@@ -1,0 +1,24 @@
+<el-input :autofocus="true" @keyup.enter.native="do_login()" v-model="form_data.username"></el-input>
+
+回车 调用do_login函数
+
+
+axios使用post，后端无法接受数据,需要添加配置
+  master.interceptors.request.use(config => {
+    config.headers.Authorization = store.state.token
+    config.cancelToken = store.state.cancel_token.token
+    config.data = filter_out_empty_str(config.data)
+    if (config.method=='post'){
+      config.data = qs.stringify(config.data);
+      config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    }
+    return config
+  }, error => {
+    return Promise.reject(error)
+  })
+
+
+#object.assign 赋值obj对象到copy变量中
+  var obj = { a: 1 };
+  var copy = Object.assign({}, obj);
+  console.log(copy); // { a: 1 }
