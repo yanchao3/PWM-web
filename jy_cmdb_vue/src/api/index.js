@@ -131,6 +131,7 @@ master.interceptors.request.use(config => {
     // config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
     config.data = config.data;
     config.headers['Content-Type'] = 'application/json'
+    config.headers['X-CSRFToken'] = this.getCookie('csrftoken')
   }
   return config
 }, error => {
