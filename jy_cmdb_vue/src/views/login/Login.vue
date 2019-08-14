@@ -63,9 +63,9 @@ export default {
   },
   mounted() {
     console.log("tttttttttttttttttt",this.$store.state.token);
-    if (this.$store.state.token) {
-      this.get_user_info(this.$store.state.token);
-    }
+    //if (this.$store.state.token) {
+    //  this.get_user_info(this.$store.state.token);
+    //}
   },
   methods: {
     do_login() {

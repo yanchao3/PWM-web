@@ -22,6 +22,12 @@ if (token) {
   token = localStorage.getItem("token")
 }
 
+function getCookie (name) {
+      var value = '; ' + document.cookie
+      var parts = value.split('; ' + name + '=')
+      if (parts.length === 2) return parts.pop().split(';').shift()
+};
+
 
 //export var baseURL = window.location.protocol + "//" + window.location.host + "/api/v1/"
 export var baseURL = window.location.protocol + "//" + "10.50.182.65:888" + "/api/v1/"
@@ -119,19 +125,42 @@ var master = axios.create({
     // "Access-Control-Allow-Methods": "GET,POST,OPTIONS"
   },
   // paramsSerializer: params_serializer,
-  withCredentials: true
+  withCredentials: true,
+  xsrfCookieName: 'csrftoken',
+  xsrfHeaderName: 'X-CSRFToken',
 });
+
+function getCookie(name, token) {
+  var value = '; ' + token;
+  var parts = value.split('; ' + name + '=');
+  console.log("ppppppppppp", parts);
+  if (parts.length === 2) {return parts.pop().split(';').shift()}
+}
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+
 
 master.interceptors.request.use(config => {
   config.headers.Authorization = store.state.token
   config.cancelToken = store.state.cancel_token.token
   config.data = filter_out_empty_str(config.data)
+  //let regex = /.*csrftoken=([^;.]*).*$/;
   if (config.method=='post' ){
+    //config.headers['X-CSRFToken'] = document.cookie.match(regex) === null ? null : document.cookie.match(regex)[1];
     // config.data = qs.stringify(config.data);
     // config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    console.log("ggggggggggggggg", document.cookie);
+    setCookie("Hm_lvt_dde6ba2851f3db0ddc415ce0f895822e","",-1)
+    setCookie("Hm_lpvt_dde6ba2851f3db0ddc415ce0f895822e","",-1)
+    console.log("ggggggggggggggg", document.cookie);
+    //config.headers['X-CSRFToken'] = getCookie('csrftoken',token);
     config.data = config.data;
     config.headers['Content-Type'] = 'application/json'
-    config.headers['X-CSRFToken'] = this.getCookie('csrftoken')
   }
   return config
 }, error => {
