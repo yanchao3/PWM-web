@@ -123,7 +123,7 @@ export default {
         .get("user/get-my-info?username=" + username)
         .then(response => {
           this.submit_loading = false;
-          this.store.state.user_info = response.data;
+          this.$store.state.user_info = response.data;
           var next_path = this.get_next_path();
           if (!next_path || next_path.startsWith === "/login") {
             next_path = "/";
