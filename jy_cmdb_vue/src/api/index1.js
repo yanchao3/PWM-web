@@ -124,9 +124,10 @@ var masterx = axios.create({
 
 masterx.interceptors.request.use(config => {
   config.headers.Authorization = store.state.token
-  config.cancelToken = store.state.cancel_token.token
+  //config.cancelToken = store.state.cancel_token.token
   config.data = filter_out_empty_str(config.data)
   console.log("cccccccccccccc",config.data)
+  
   if (config.method=='post' ){
     config.data = qs.stringify(config.data);
     config.headers['Content-Type'] = 'application/x-www-form-urlencoded';

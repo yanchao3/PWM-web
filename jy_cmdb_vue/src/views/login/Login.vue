@@ -89,7 +89,7 @@ export default {
               localStorage.setItem("menu",JSON.stringify(menu_list));
               console.log("mmmmgmgmgmgmgmg",localStorage.getItem("menu"))
               // self.$store.commit('menu',response.data.data.menu_list);
-              // console.log("nnnnnnnnnnnnn",self.$store.state.menu)
+              // console.log("nnnnnnnnnnnnn",self.store.state.menu)
               // localStorage.setItem("menu",json.stringify(response.data.data.menu_list));
               // console.log("jjjjjjjjjjjjj",json.stringify(response.data.data.menu_list))
               //localStorage记录token
@@ -123,7 +123,7 @@ export default {
         .get("user/get-my-info?username=" + username)
         .then(response => {
           this.submit_loading = false;
-          this.$store.state.user_info = response.data;
+          this.store.state.user_info = response.data;
           var next_path = this.get_next_path();
           if (!next_path || next_path.startsWith === "/login") {
             next_path = "/";
