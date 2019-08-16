@@ -1,9 +1,9 @@
 <template>
   <div style="width: 560px; margin: 30vh auto auto;" v-if="!$store.state.token">
     <el-card>
-      <h1 style="width: 100%; text-align: center">登录PWM</h1>
+      <h1 style="width: 100%; text-align: center">登录CMDB</h1>
       <p style="width: 100%; text-align: center; color: #f56c6c">{{ errors.non_field_errors}}</p>
-      <el-form style="margin-right: 40px" :model="form_data" ref="form_data" :rules="rules" title="登录PWM" label-width="80px">
+      <el-form style="margin-right: 40px" :model="form_data" ref="form_data" :rules="rules" title="登录CMDB" label-width="80px">
         <el-form-item label="用户名" prop="username" :error="errors.username">
           <el-input :autofocus="true" @keyup.enter.native="do_login()" v-model="form_data.username"></el-input>
         </el-form-item>
@@ -17,7 +17,7 @@
       </el-form>
       <div>
         <el-popover ref="no_account" placement="top" width="160" v-model="visible">
-          <p>请联系PWM管理员创建</p>
+          <p>请联系CMDB管理员创建</p>
           <div style="text-align: right; margin: 0">
             <el-button type="primary" size="mini" @click="visible=false">确定</el-button>
           </div>
@@ -63,9 +63,9 @@ export default {
   },
   mounted() {
     console.log("tttttttttttttttttt",this.$store.state.token);
-    //if (this.$store.state.token) {
-    //  this.get_user_info(this.$store.state.token);
-    //}
+    if (this.$store.state.token) {
+      this.get_user_info(this.$store.state.token);
+    }
   },
   methods: {
     do_login() {
@@ -87,9 +87,8 @@ export default {
               console.log(response.data.data.menu_list)
               let menu_list = response.data.data.menu_list;
               localStorage.setItem("menu",JSON.stringify(menu_list));
-              console.log("mmmmgmgmgmgmgmg",localStorage.getItem("menu"))
               // self.$store.commit('menu',response.data.data.menu_list);
-              // console.log("nnnnnnnnnnnnn",self.store.state.menu)
+              // console.log("nnnnnnnnnnnnn",self.$store.state.menu)
               // localStorage.setItem("menu",json.stringify(response.data.data.menu_list));
               // console.log("jjjjjjjjjjjjj",json.stringify(response.data.data.menu_list))
               //localStorage记录token
@@ -119,11 +118,16 @@ export default {
 
       this.submit_loading = true;
       var username = localStorage.getItem("username")
+      console.log("uuuuuuuuuuuuu",username)
       this.$c_master
         .get("user/get-my-info?username=" + username)
         .then(response => {
+          console.log("rrrrrrrrrr", response.data)
           this.submit_loading = false;
-          this.$store.state.user_info = response.data;
+          //this.$store.state.user_info = response.data;
+          //localStorage.setItem("user_info", response.data);
+          store.state.user_info = response.data;
+          //console.log("ssssssssssssss", store.state.user_info)
           var next_path = this.get_next_path();
           if (!next_path || next_path.startsWith === "/login") {
             next_path = "/";
@@ -133,14 +137,14 @@ export default {
           init_router()
           this.$router.push({ path: next_path });
         })
-        .catch(error => {
-          this.submit_loading = false;
-          if (error.response && error.response.status === 401) {
-            this.$message.error("会话已过期 请重新登录");
-            return;
-          }
-          this.$message.error("获取用户信息失败 请重试");
-        });
+        //.catch(error => {
+        //  this.submit_loading = false;
+        //  if (error.response && error.response.status === 401) {
+        //    this.$message.error("会话已过期 请重新登录");
+        //    return;
+        //  }
+        //  this.$message.error("获取用户信息失败 请重试");
+        //});
     },
     do_reset() {
       this.$refs["form_data"].resetFields();

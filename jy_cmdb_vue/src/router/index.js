@@ -106,6 +106,7 @@ export const init_router = () => {
     name: "root",
     component: _import("layout/Layout"), //加载侧边栏和header头
   }
+  console.log("fffffffffff", filtered_menu)
   if (filtered_menu.length) {
     //跳转到要访问的路径下
     root_router.redirect = { "name": filtered_menu[0].name }
@@ -123,9 +124,20 @@ export const init_router = () => {
   store.state.filtered_menu = filtered_menu
 }
 
+function get_next_path() {
+  console.log("get_next_path:", window.location.href);
+  var l = window.location.href.split("next_path=");
+  if (l.length >= 2) {
+    var next_path = l[1].split("&token")[0];
+    return decodeURIComponent(next_path);
+  }
+  return null;
+}
+
 
 //每次路由跳转预处理
 router.beforeEach((to, from, next) => {
+  init_router();
   // 如果为测试页面直接跳转
   if (to.name && to.name.startsWith("test")) {
     next()
@@ -133,6 +145,7 @@ router.beforeEach((to, from, next) => {
   }
   self = this
   // 如果尚未登录且访问的不是登录页面跳转到登录页面
+  console.log("ttttttttttttt",to)
   if (to.name != "login" && !store.state.user_info.id && !store.state.roles ) {
 
     master.get('first_login/').then(res=>{
@@ -160,9 +173,16 @@ router.beforeEach((to, from, next) => {
       next({ name: from.name })
       return
     }
-    console.log("jjjjjjjjj")
-    next({ name: "monitor-dashboard" })
-    return
+    console.log("jjjjjjjjj", to.path)
+    //store.commit("reset_canceltoken")
+    //router.push({ name: to.name });
+    //next()
+    //var next_path = get_next_path();
+    //router.push({ path: next_path });
+    //return
+    //next({ name:"job-manager" })
+    //next()
+    //return
   }
   console.log("pppppppllll")
   store.commit("reset_canceltoken")                                             //取消当前所有访问

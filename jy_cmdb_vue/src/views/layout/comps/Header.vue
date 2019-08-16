@@ -2,7 +2,7 @@
   <div style="background-color: #0d2a42; padding: 0px 20px; display: flex; align-items: center; justify-content: space-between; height: 80px">
     <div>
       <!-- <img src="@/assets/logo.png" style="height: 100%; display: inline-block; box-sizing: border-box; vertical-align: middle;" /> -->
-      <span style="margin-left: 50px; font-family: Montserrat-Regular; letter-spacing:2px; font-weight: 800; color: #FFFFFF; font-size: 36px; height: 100%; display: inline-block; box-sizing: border-box; vertical-align: middle;">PWM</span>
+      <span style="margin-left: 50px; font-family: Montserrat-Regular; letter-spacing:2px; font-weight: 800; color: #FFFFFF; font-size: 36px; height: 100%; display: inline-block; box-sizing: border-box; vertical-align: middle;">捷越资产</span>
     </div>
     <div>
       <ul class="c_ul">
@@ -98,6 +98,7 @@ export default {
   mounted() {
     // this.get_data()
     this.user_info = this.$store.state.user_info;
+    //this.user_info = localStorage.getItem("user_info")
   },
   methods: {
     get_data() {
@@ -144,9 +145,10 @@ export default {
       window.open(api_url);
     },
     on_help() {
-      //window.open("https://zhuanlan.zhihu.com/p/34191320");
+      window.open("https://zhuanlan.zhihu.com/p/34191320");
     },
     on_spilt_() {
+      const api_url = "https://github.com/open-cmdb/cmdb/issues";
       window.open(api_url);
     },
     open_url(url) {
