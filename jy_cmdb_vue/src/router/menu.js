@@ -102,4 +102,14 @@ export const menu = [
             permissions: []
         }
     },
+  {
+        path: "k8s-cluster",
+        name: "k8s-cluster",
+        component: _import("k8s-cluster/k8s-cluster"),
+        meta: {
+            name: "用户菜单管理",
+            icon: "fa-book",
+            permissions: []
+        }
+    },
 ]
